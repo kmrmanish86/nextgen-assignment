@@ -1,0 +1,27 @@
+@model CalculatorViewModel
+
+@{
+    ViewBag.Title = "Calculator History";
+    Layout = "_Layout";
+}
+
+<h2>Calculator</h2>
+
+@using(Html.BeginForm("Index", "Calculator", FormMethod.Post))
+{
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <td>Postal Code</td>
+            <td>@Html.DropDownListFor(m => m.PostalCode, Model.PostalCodes)</td>
+        </tr>
+        <tr>
+            <td>Annual Income</td>
+            <td>@Html.TextBoxFor(m => m.Income)</td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Submit" name='button' /></td>
+        </tr>
+    </tbody>
+</table>
+}

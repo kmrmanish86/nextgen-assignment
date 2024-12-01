@@ -1,6 +1,8 @@
-﻿namespace PaySpace.Calculator.Services.Abstractions
+﻿using PaySpace.Calculator.Services.Models;
+
+namespace PaySpace.Calculator.Services.Abstractions
 {
-    public interface IFlatRateCalculator
+    public interface IFlatRateCalculator : ITaxTypeCalculator
     {
     }
 }

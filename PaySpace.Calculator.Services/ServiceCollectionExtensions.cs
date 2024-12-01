@@ -2,6 +2,7 @@
 
 using PaySpace.Calculator.Services.Abstractions;
 using PaySpace.Calculator.Services.Calculators;
+using PaySpace.Calculator.Services.Factory;
 
 namespace PaySpace.Calculator.Services
 {
@@ -16,6 +17,9 @@ namespace PaySpace.Calculator.Services
             services.AddScoped<IFlatRateCalculator, FlatRateCalculator>();
             services.AddScoped<IFlatValueCalculator, FlatValueCalculator>();
             services.AddScoped<IProgressiveCalculator, ProgressiveCalculator>();
+
+            services.AddScoped<ITaxCalculatorService, TaxCalculatorService>();
+            services.AddScoped<ICalculatorFactory, CalculatorFactory>();
 
             services.AddMemoryCache();
         }

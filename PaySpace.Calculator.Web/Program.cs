@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddCalculatorHttpServices();
-
+builder.Services.AddHttpClient("PaySpaceApiClient", client => { client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("CalculatorSettings:ApiUrl")); });
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -12,6 +12,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

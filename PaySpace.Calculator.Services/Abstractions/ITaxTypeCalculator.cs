@@ -2,7 +2,8 @@
 
 namespace PaySpace.Calculator.Services.Abstractions
 {
-    public interface IProgressiveCalculator : ITaxTypeCalculator
+    public interface ITaxTypeCalculator
     {
+        Task<CalculateResult> CalculateAsync(decimal income);
     }
 }
