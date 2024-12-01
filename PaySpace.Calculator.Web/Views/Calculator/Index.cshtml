@@ -4,24 +4,37 @@
     ViewBag.Title = "Calculator History";
     Layout = "_Layout";
 }
-
+<style>
+    .field-validation-error
+    {
+        color:red;
+    }
+</style>
 <h2>Calculator</h2>
 
-@using(Html.BeginForm("Index", "Calculator", FormMethod.Post))
+@using (Html.BeginForm("Index", "Calculator", FormMethod.Post))
 {
-<table class="table table-striped">
-    <tbody>
-        <tr>
-            <td>Postal Code</td>
-            <td>@Html.DropDownListFor(m => m.PostalCode, Model.PostalCodes)</td>
-        </tr>
-        <tr>
-            <td>Annual Income</td>
-            <td>@Html.TextBoxFor(m => m.Income)</td>
-        </tr>
-        <tr>
-            <td colspan="2"><input type="submit" value="Submit" name='button' /></td>
-        </tr>
-    </tbody>
-</table>
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td align="left" width="10%">Postal Code</td>
+                <td align="left" width="10%">
+                    @Html.DropDownListFor(m => m.PostalCode, Model.PostalCodes)
+                </td>
+                <td align="left" width="80%">@Html.ValidationMessageFor(m => m.PostalCode)</td>
+            </tr>
+            <tr>
+                <td>Annual Income</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Income)
+                </td>
+                <td>@Html.ValidationMessageFor(m => m.Income)</td>
+            </tr>
+            <tr>
+                <td colspan="3"><input type="submit" value="Submit" name='button' /></td>
+            </tr>
+        </tbody>
+    </table>
 }
+
+@Html.Partial("_ValidationScriptsPartial")

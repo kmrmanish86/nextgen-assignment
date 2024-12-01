@@ -11,18 +11,10 @@ namespace PaySpace.Calculator.Web.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            //var vm = this.GetCalculatorViewModelAsync();
-
-            //return this.View(new CalculatorViewModel
-            //{
-            //    PostalCodes = new SelectList(vm)
-            //});
-
-            var k = await calculatorHttpService.GetPostalCodesAsync();
+            var postalCodes = await calculatorHttpService.GetPostalCodesAsync();
             return this.View(new CalculatorViewModel { 
-            PostalCodes= new SelectList(k, "Calculator", "Code")
+            PostalCodes= new SelectList(postalCodes, "Calculator", "Code")
             });
-            //return this.View(vm);
         }
 
         public async Task<IActionResult> History()
@@ -55,33 +47,20 @@ namespace PaySpace.Calculator.Web.Controllers
                 }
             }
 
-            //var vm = await this.GetCalculatorViewModelAsync(request);
-            var vm = new CalculatorViewModel();
+            var vm = await this.GetCalculatorViewModelAsync(request);
             return this.View(vm);
         }
 
-        private async Task<CalculatorViewModel> GetCalculatorViewModelAsync()
+        private async Task<CalculatorViewModel> GetCalculatorViewModelAsync(CalculateRequestViewModel request)
         {
             var postalCodes = await calculatorHttpService.GetPostalCodesAsync();
 
             return new CalculatorViewModel
             {
-                PostalCodes = new SelectList(postalCodes),
-                //Income = request.Income,
-                //PostalCode = request.PostalCode ?? string.Empty
+                PostalCodes = new SelectList(postalCodes, "Calculator", "Code"),
+                Income = request.Income,
+                PostalCode = request.PostalCode
             };
         }
-
-        //private async Task<CalculatorViewModel> GetCalculatorViewModelAsync(CalculateRequestViewModel? request = null)
-        //{
-        //    var postalCodes = await calculatorHttpService.GetPostalCodesAsync();
-
-        //    return new CalculatorViewModel
-        //    {
-        //        PostalCodes = new SelectList(postalCodes),
-        //        Income = request.Income,
-        //        PostalCode = request.PostalCode ?? string.Empty
-        //    };
-        //}
     }
 }

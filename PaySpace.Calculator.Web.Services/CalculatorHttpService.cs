@@ -25,7 +25,6 @@ namespace PaySpace.Calculator.Web.Services
 
         public async Task<List<CalculatorHistory>> GetHistoryAsync()
         {
-            //throw new NotImplementedException();
             using (HttpClient httpClient = httpClientFactory.CreateClient("PaySpaceApiClient"))
             {
                 var response = await httpClient.GetAsync("api/calculator/history");
@@ -40,8 +39,6 @@ namespace PaySpace.Calculator.Web.Services
 
         public async Task<CalculateResult> CalculateTaxAsync(CalculateRequest calculationRequest)
         {
-            //throw new NotImplementedException();
-
             using (HttpClient httpClient= httpClientFactory.CreateClient("PaySpaceApiClient"))
             {
                 using StringContent jsonContent = new(
@@ -55,7 +52,6 @@ namespace PaySpace.Calculator.Web.Services
                     throw new Exception($"Cannot calculate tax, status code: {response.StatusCode}");
                 }
 
-                //return await response.Content.ReadFromJsonAsync<CalculateResult>() ?? [];
                 return await response.Content.ReadFromJsonAsync<CalculateResult>();
             }
         }

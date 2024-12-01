@@ -21,9 +21,18 @@ namespace PaySpace.Calculator.API.Controllers
         [HttpGet("postalcode")]
         public async Task<ActionResult<List<PostalCode>>> PostalCode()
         {
-            var postalcode = await postalCodeService.GetPostalCodesAsync();
+            try
+            {
+                var postalcode = await postalCodeService.GetPostalCodesAsync();
 
-            return this.Ok(mapper.Map<List<PostalCodeDto>>(postalcode));
+                return this.Ok(mapper.Map<List<PostalCodeDto>>(postalcode));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, e.Message);
+
+                return this.BadRequest(e.Message);
+            }
         }
     }
 }

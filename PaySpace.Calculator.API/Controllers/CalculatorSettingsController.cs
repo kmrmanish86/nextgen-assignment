@@ -21,9 +21,18 @@ namespace PaySpace.Calculator.API.Controllers
         [HttpGet("calculatorsettings")]
         public async Task<ActionResult<List<CalculatorSetting>>> CalculatorSettings(CalculatorType calculatorType)
         {
-            var postalcode = await calculatorSettingsService.GetSettingsAsync(calculatorType);
+            try
+            {
+                var postalcode = await calculatorSettingsService.GetSettingsAsync(calculatorType);
 
-            return this.Ok(mapper.Map<List<CalculatorSettingDto>>(postalcode));
+                return this.Ok(mapper.Map<List<CalculatorSettingDto>>(postalcode));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, e.Message);
+
+                return this.BadRequest(e.Message);
+            }
         }
     }
 }

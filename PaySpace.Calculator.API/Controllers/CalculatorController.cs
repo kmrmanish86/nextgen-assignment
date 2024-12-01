@@ -52,9 +52,18 @@ namespace PaySpace.Calculator.API.Controllers
         [HttpGet("history")]
         public async Task<ActionResult<List<CalculatorHistory>>> History()
         {
-            var history = await historyService.GetHistoryAsync();
+            try
+            {
+                var history = await historyService.GetHistoryAsync();
 
-            return this.Ok(mapper.Map<List<CalculatorHistoryDto>>(history));
+                return this.Ok(mapper.Map<List<CalculatorHistoryDto>>(history));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, e.Message);
+
+                return this.BadRequest(e.Message);
+            }
         }
     }
 }
