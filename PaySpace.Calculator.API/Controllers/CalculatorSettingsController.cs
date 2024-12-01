@@ -7,6 +7,7 @@ using PaySpace.Calculator.Data.Models;
 using PaySpace.Calculator.Services.Abstractions;
 using PaySpace.Calculator.Services.Exceptions;
 using PaySpace.Calculator.Services.Models;
+using System.Text.Json;
 
 namespace PaySpace.Calculator.API.Controllers
 {
@@ -21,11 +22,15 @@ namespace PaySpace.Calculator.API.Controllers
         [HttpGet("calculatorsettings")]
         public async Task<ActionResult<List<CalculatorSetting>>> CalculatorSettings(CalculatorType calculatorType)
         {
+            logger.LogInformation($"CalculatorSettingsController->CalculatorSettings Start | CalculatorType: {JsonSerializer.Serialize(calculatorType)}");
+
             try
             {
-                var postalcode = await calculatorSettingsService.GetSettingsAsync(calculatorType);
+                var settings = await calculatorSettingsService.GetSettingsAsync(calculatorType);
 
-                return this.Ok(mapper.Map<List<CalculatorSettingDto>>(postalcode));
+                logger.LogInformation("CalculatorSettingsController->CalculatorSettings | settings fetched successfully");
+
+                return this.Ok(mapper.Map<List<CalculatorSettingDto>>(settings));
             }
             catch (Exception e)
             {

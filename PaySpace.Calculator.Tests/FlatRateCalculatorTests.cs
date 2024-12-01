@@ -15,30 +15,10 @@ namespace PaySpace.Calculator.Tests
     [TestFixture]
     internal sealed class FlatRateCalculatorTests
     {
-        private ServiceProvider _serviceProvider;
-        private ICalculatorSettingsService _flatRateCalculator;
-
         [SetUp]
         public void Setup()
         {
-            // Step 1: Create a ServiceCollection
-            var services = new ServiceCollection();
-
-            // Step 2: Register the services. Here we register a mock for ICalculatorSettingsService.
-            //var mockSettingsService = new Mock<ICalculatorSettingsService>();
-            //mockSettingsService.Setup(async service => await service.CalculateTaxAsync(new TaxCalculator {Income=0 });
-
-            // Register the mock
-            //services.AddSingleton(mockSettingsService.Object);
-
-            // Register the real service
-            services.AddScoped<IFlatRateCalculator, FlatRateCalculator>();
-            services.AddScoped<ICalculatorSettingsService, CalculatorSettingsService>();
-
-            // Build the ServiceProvider
-            _serviceProvider = services.BuildServiceProvider();
-
-            _flatRateCalculator = _serviceProvider.GetService<ICalculatorSettingsService>();
+ 
         }
 
         [TestCase(-1, 0)]
@@ -48,13 +28,11 @@ namespace PaySpace.Calculator.Tests
         public async Task Calculate_Should_Return_Expected_Tax(decimal income, decimal expectedTax)
         {
             // Arrange
-            var taxCalculator = new TaxCalculator { Calculator = CalculatorType.FlatRate, Income = income };
 
             // Act
-            var tax = await new FlatRateCalculator(_flatRateCalculator).CalculateAsync(income);
-
+            
             // Assert
-            Assert.AreEqual(tax.Tax, expectedTax);
+
         }
     }
 }

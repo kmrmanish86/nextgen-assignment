@@ -7,6 +7,7 @@ using PaySpace.Calculator.Data.Models;
 using PaySpace.Calculator.Services.Abstractions;
 using PaySpace.Calculator.Services.Exceptions;
 using PaySpace.Calculator.Services.Models;
+using System.Text.Json;
 
 namespace PaySpace.Calculator.API.Controllers
 {
@@ -15,7 +16,6 @@ namespace PaySpace.Calculator.API.Controllers
     public sealed class CalculatorController(
         ILogger<CalculatorController> logger,
         IHistoryService historyService,
-        ICalculatorSettingsService calculatorSettingsService,
         ITaxCalculatorService taxCalculatorService,
         IMapper mapper)
         : ControllerBase
@@ -23,6 +23,8 @@ namespace PaySpace.Calculator.API.Controllers
         [HttpPost("calculate-tax")]
         public async Task<ActionResult<CalculateResult>> Calculate(CalculateRequest request)
         {
+            logger.LogInformation($"CalculatorController->Calculate Start | CalculateRequest: {JsonSerializer.Serialize(request)}");
+
             try
             {
                 var result = await taxCalculatorService.CalculateTaxAsync(new TaxCalculator {
@@ -39,6 +41,8 @@ namespace PaySpace.Calculator.API.Controllers
                     Income = request.Income
                 });
 
+                logger.LogInformation($"CalculatorController->Calculate End");
+
                 return this.Ok(mapper.Map<CalculateResultDto>(new { Calculator = request.PostalCode, Tax = result }));
             }
             catch (CalculatorException e)
@@ -52,9 +56,13 @@ namespace PaySpace.Calculator.API.Controllers
         [HttpGet("history")]
         public async Task<ActionResult<List<CalculatorHistory>>> History()
         {
+            logger.LogInformation("CalculatorController->History Start");
+
             try
             {
                 var history = await historyService.GetHistoryAsync();
+
+                logger.LogInformation("CalculatorController->History History fetched successfully");
 
                 return this.Ok(mapper.Map<List<CalculatorHistoryDto>>(history));
             }
